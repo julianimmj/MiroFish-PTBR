@@ -9,7 +9,7 @@
             <span class="step-title">模拟实例初始化</span>
           </div>
           <div class="step-status">
-            <span v-if="phase > 0" class="badge success">已完成</span>
+            <span v-if="phase > 0" class="badge success">Concluído</span>
             <span v-else class="badge processing">初始化</span>
           </div>
         </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="info-row">
               <span class="info-label">Task ID</span>
-              <span class="info-value mono">{{ taskId || '异步任务已完成' }}</span>
+              <span class="info-value mono">{{ taskId || '异步任务Concluído' }}</span>
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
             <span class="step-title">生成 Agent 人设</span>
           </div>
           <div class="step-status">
-            <span v-if="phase > 1" class="badge success">已完成</span>
+            <span v-if="phase > 1" class="badge success">Concluído</span>
             <span v-else-if="phase === 1" class="badge processing">{{ prepareProgress }}%</span>
             <span v-else class="badge pending">等待</span>
           </div>
@@ -58,7 +58,7 @@
         <div class="card-content">
           <p class="api-note">POST /api/simulation/prepare</p>
           <p class="description">
-            结合上下文，自动调用工具从知识图谱梳理实体与关系，初始化模拟个体，并基于现实种子赋予他们独特的行为与记忆
+            结合上下文，自动调用工具从知识Grafo梳理实体与Relações，初始化模拟个体，并基于现实种子赋予他们独特的行为与记忆
           </p>
 
           <!-- Profiles Stats -->
@@ -113,15 +113,15 @@
         </div>
       </div>
 
-      <!-- Step 03: 生成双平台模拟配置 -->
+      <!-- Step 03: 生成双平台Configuração da Simulação -->
       <div class="step-card" :class="{ 'active': phase === 2, 'completed': phase > 2 }">
         <div class="card-header">
           <div class="step-info">
             <span class="step-num">03</span>
-            <span class="step-title">生成双平台模拟配置</span>
+            <span class="step-title">生成双平台Configuração da Simulação</span>
           </div>
           <div class="step-status">
-            <span v-if="phase > 2" class="badge success">已完成</span>
+            <span v-if="phase > 2" class="badge success">Concluído</span>
             <span v-else-if="phase === 2" class="badge processing">生成中</span>
             <span v-else class="badge pending">等待</span>
           </div>
@@ -130,12 +130,12 @@
         <div class="card-content">
           <p class="api-note">POST /api/simulation/prepare</p>
           <p class="description">
-            LLM 根据模拟需求与现实种子，智能设置世界时间流速、推荐算法、每个个体的活跃时间段、发言频率、事件触发等参数
+            LLM 根据Requisito de Simulação与现实种子，智能Configurações世界Hora流速、推荐算法、每个个体的活跃Hora段、发言频率、事件触发等参数
           </p>
           
           <!-- Config Preview -->
           <div v-if="simulationConfig" class="config-detail-panel">
-            <!-- 时间配置 -->
+            <!-- Hora配置 -->
             <div class="config-block">
               <div class="config-grid">
                 <div class="config-item">
@@ -143,12 +143,12 @@
                   <span class="config-item-value">{{ simulationConfig.time_config?.total_simulation_hours || '-' }} 小时</span>
                 </div>
                 <div class="config-item">
-                  <span class="config-item-label">每轮时长</span>
+                  <span class="config-item-label">每rodadas时长</span>
                   <span class="config-item-value">{{ simulationConfig.time_config?.minutes_per_round || '-' }} 分钟</span>
                 </div>
                 <div class="config-item">
-                  <span class="config-item-label">总轮次</span>
-                  <span class="config-item-value">{{ Math.floor((simulationConfig.time_config?.total_simulation_hours * 60 / simulationConfig.time_config?.minutes_per_round)) || '-' }} 轮</span>
+                  <span class="config-item-label">总rodadas次</span>
+                  <span class="config-item-value">{{ Math.floor((simulationConfig.time_config?.total_simulation_hours * 60 / simulationConfig.time_config?.minutes_per_round)) || '-' }} rodadas</span>
                 </div>
                 <div class="config-item">
                   <span class="config-item-label">每小时活跃</span>
@@ -203,7 +203,7 @@
                     </div>
                   </div>
                   
-                  <!-- 活跃时间轴 -->
+                  <!-- 活跃Hora轴 -->
                   <div class="agent-timeline">
                     <span class="timeline-label">活跃时段</span>
                     <div class="mini-timeline">
@@ -264,7 +264,7 @@
               </div>
             </div>
 
-            <!-- 平台配置 -->
+            <!-- Configuração da Plataforma -->
             <div class="config-block">
               <div class="config-block-header">
                 <span class="config-block-title">推荐算法配置</span>
@@ -354,7 +354,7 @@
             <span class="step-title">初始激活编排</span>
           </div>
           <div class="step-status">
-            <span v-if="phase > 3" class="badge success">已完成</span>
+            <span v-if="phase > 3" class="badge success">Concluído</span>
             <span v-else-if="phase === 3" class="badge processing">编排中</span>
             <span v-else class="badge pending">等待</span>
           </div>
@@ -363,7 +363,7 @@
         <div class="card-content">
           <p class="api-note">POST /api/simulation/prepare</p>
           <p class="description">
-            基于叙事方向，自动生成初始激活事件与热点话题，引导模拟世界的初始状态
+            基于叙事方向，自动生成初始激活事件与热点话题，引导模拟世界的初始Status
           </p>
 
           <div v-if="simulationConfig?.event_config" class="orchestration-content">
@@ -426,7 +426,7 @@
             <span class="step-title">准备完成</span>
           </div>
           <div class="step-status">
-            <span v-if="phase >= 4" class="badge processing">进行中</span>
+            <span v-if="phase >= 4" class="badge processing">Em Andamento</span>
             <span v-else class="badge pending">等待</span>
           </div>
         </div>
@@ -435,17 +435,17 @@
           <p class="api-note">POST /api/simulation/start</p>
           <p class="description">模拟环境已准备完成，可以开始运行模拟</p>
           
-          <!-- 模拟轮数配置 - 只有在配置生成完成且轮数计算出来后才显示 -->
+          <!-- 模拟rodadas数配置 - 只有在配置Geração concluída且rodadas数计算出来后才显示 -->
           <div v-if="simulationConfig && autoGeneratedRounds" class="rounds-config-section">
             <div class="rounds-header">
               <div class="header-left">
-                <span class="section-title">模拟轮数设定</span>
-                <span class="section-desc">MiroFish 自动规划推演现实 <span class="desc-highlight">{{ simulationConfig?.time_config?.total_simulation_hours || '-' }}</span> 小时，每轮代表现实 <span class="desc-highlight">{{ simulationConfig?.time_config?.minutes_per_round || '-' }}</span> 分钟时间流逝</span>
+                <span class="section-title">模拟rodadas数设定</span>
+                <span class="section-desc">MiroFish 自动规划推演现实 <span class="desc-highlight">{{ simulationConfig?.time_config?.total_simulation_hours || '-' }}</span> 小时，每rodadas代表现实 <span class="desc-highlight">{{ simulationConfig?.time_config?.minutes_per_round || '-' }}</span> 分钟Hora流逝</span>
               </div>
               <label class="switch-control">
                 <input type="checkbox" v-model="useCustomRounds">
                 <span class="switch-track"></span>
-                <span class="switch-label">自定义</span>
+                <span class="switch-label">Personalizado</span>
               </label>
             </div>
             
@@ -454,10 +454,10 @@
                 <div class="slider-display">
                   <div class="slider-main-value">
                     <span class="val-num">{{ customMaxRounds }}</span>
-                    <span class="val-unit">轮</span>
+                    <span class="val-unit">rodadas</span>
                   </div>
                   <div class="slider-meta-info">
-                    <span>若Agent规模为100：预计耗时约 {{ Math.round(customMaxRounds * 0.6) }} 分钟</span>
+                    <span>若Agent规模为100：Estimado耗时约 {{ Math.round(customMaxRounds * 0.6) }} 分钟</span>
                   </div>
                 </div>
 
@@ -488,7 +488,7 @@
                 <div class="auto-info-card">
                   <div class="auto-value">
                     <span class="val-num">{{ autoGeneratedRounds }}</span>
-                    <span class="val-unit">轮</span>
+                    <span class="val-unit">rodadas</span>
                   </div>
                   <div class="auto-content">
                     <div class="auto-meta-row">
@@ -497,11 +497,11 @@
                           <circle cx="12" cy="12" r="10"></circle>
                           <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
-                        若Agent规模为100：预计耗时 {{ Math.round(autoGeneratedRounds * 0.6) }} 分钟
+                        若Agent规模为100：Estimado耗时 {{ Math.round(autoGeneratedRounds * 0.6) }} 分钟
                       </span>
                     </div>
                     <div class="auto-desc">
-                      <p class="highlight-tip" @click="useCustomRounds = true">若首次运行，强烈建议切换至‘自定义模式’减少模拟轮数，以便快速预览效果并降低报错风险 ➝</p>
+                      <p class="highlight-tip" @click="useCustomRounds = true">若首次运行，强烈Recomendações切换至‘Personalizado模式’减少模拟rodadas数，以便快速预览效果并降低报错风险 ➝</p>
                     </div>
                   </div>
                 </div>
@@ -514,7 +514,7 @@
               class="action-btn secondary"
               @click="$emit('go-back')"
             >
-              ← 返回图谱构建
+              ← 返回Construção do Grafo
             </button>
             <button 
               class="action-btn primary"
@@ -601,8 +601,8 @@
                 <span class="dim-desc">基于现实种子形成的记忆</span>
               </div>
               <div class="dimension-card">
-                <span class="dim-title">社会关系网络</span>
-                <span class="dim-desc">个体链接与交互图谱</span>
+                <span class="dim-title">社会Relações网络</span>
+                <span class="dim-desc">个体链接与交互Grafo</span>
               </div>
             </div>
 
@@ -668,19 +668,19 @@ let lastLoggedMessage = ''
 let lastLoggedProfileCount = 0
 let lastLoggedConfigStage = ''
 
-// 模拟轮数配置
-const useCustomRounds = ref(false) // 默认使用自动配置轮数
-const customMaxRounds = ref(40)   // 默认推荐40轮
+// 模拟rodadas数配置
+const useCustomRounds = ref(false) // Padrão使用自动配置rodadas数
+const customMaxRounds = ref(40)   // Padrão推荐40rodadas
 
 // Watch stage to update phase
 watch(currentStage, (newStage) => {
   if (newStage === '生成Agent人设' || newStage === 'generating_profiles') {
     phase.value = 1
-  } else if (newStage === '生成模拟配置' || newStage === 'generating_config') {
+  } else if (newStage === '生成Configuração da Simulação' || newStage === 'generating_config') {
     phase.value = 2
-    // 进入配置生成阶段，开始轮询配置
+    // 进入配置生成阶段，开始rodadas询配置
     if (!configTimer) {
-      addLog('开始生成双平台模拟配置...')
+      addLog('开始生成双平台Configuração da Simulação...')
       startConfigPolling()
     }
   } else if (newStage === '准备模拟脚本' || newStage === 'copying_scripts') {
@@ -688,7 +688,7 @@ watch(currentStage, (newStage) => {
   }
 })
 
-// 从配置中计算自动生成的轮数（不使用硬编码默认值）
+// 从配置中计算自动生成的rodadas数（不使用硬编码Padrão值）
 const autoGeneratedRounds = computed(() => {
   if (!simulationConfig.value?.time_config) {
     return null // 配置未生成时返回 null
@@ -699,7 +699,7 @@ const autoGeneratedRounds = computed(() => {
     return null // 配置数据不完整时返回 null
   }
   const calculatedRounds = Math.floor((totalHours * 60) / minutesPerRound)
-  // 确保最大轮数不小于40（推荐值），避免滑动条范围异常
+  // 确保最大rodadas数不小于40（推荐值），避免滑动条范围异常
   return Math.max(calculatedRounds, 40)
 })
 
@@ -737,18 +737,18 @@ const addLog = (msg) => {
   emit('add-log', msg)
 }
 
-// 处理开始模拟按钮点击
+// 处理Iniciar Simulação按钮点击
 const handleStartSimulation = () => {
   // 构建传递给父组件的参数
   const params = {}
   
   if (useCustomRounds.value) {
-    // 用户自定义轮数，传递 max_rounds 参数
+    // 用户Personalizadorodadas数，传递 max_rounds 参数
     params.maxRounds = customMaxRounds.value
-    addLog(`开始模拟，自定义轮数: ${customMaxRounds.value} 轮`)
+    addLog(`Iniciar Simulação，Personalizadorodadas数: ${customMaxRounds.value} rodadas`)
   } else {
-    // 用户选择保持自动生成的轮数，不传递 max_rounds 参数
-    addLog(`开始模拟，使用自动配置轮数: ${autoGeneratedRounds.value} 轮`)
+    // 用户选择保持自动生成的rodadas数，不传递 max_rounds 参数
+    addLog(`Iniciar Simulação，使用自动配置rodadas数: ${autoGeneratedRounds.value} rodadas`)
   }
   
   emit('next-step', params)
@@ -768,7 +768,7 @@ const selectProfile = (profile) => {
 // 自动开始准备模拟
 const startPrepareSimulation = async () => {
   if (!props.simulationId) {
-    addLog('错误：缺少 simulationId')
+    addLog('Erro：缺少 simulationId')
     emit('update-status', 'error')
     return
   }
@@ -797,22 +797,22 @@ const startPrepareSimulation = async () => {
       addLog(`准备任务已启动`)
       addLog(`  └─ Task ID: ${res.data.task_id}`)
       
-      // 立即设置预期Agent总数（从prepare接口返回值获取）
+      // 立即Configurações预期Agent总数（从prepare接口返回值获取）
       if (res.data.expected_entities_count) {
         expectedTotal.value = res.data.expected_entities_count
-        addLog(`从Zep图谱读取到 ${res.data.expected_entities_count} 个实体`)
+        addLog(`从ZepGrafo读取到 ${res.data.expected_entities_count} 个实体`)
         if (res.data.entity_types && res.data.entity_types.length > 0) {
-          addLog(`  └─ 实体类型: ${res.data.entity_types.join(', ')}`)
+          addLog(`  └─ 实体Tipo: ${res.data.entity_types.join(', ')}`)
         }
       }
       
-      addLog('开始轮询准备进度...')
-      // 开始轮询进度
+      addLog('开始rodadas询准备进度...')
+      // 开始rodadas询进度
       startPolling()
       // 开始实时获取 Profiles
       startProfilesPolling()
     } else {
-      addLog(`准备失败: ${res.error || '未知错误'}`)
+      addLog(`准备失败: ${res.error || '未知Erro'}`)
       emit('update-status', 'error')
     }
   } catch (err) {
@@ -876,12 +876,12 @@ const pollPrepareStatus = async () => {
           }
         }
       } else if (data.message) {
-        // 从消息中提取阶段
+        // 从Mensagem中提取阶段
         const match = data.message.match(/\[(\d+)\/(\d+)\]\s*([^:]+)/)
         if (match) {
           currentStage.value = match[3].trim()
         }
-        // 输出消息日志（避免重复）
+        // 输出Mensagem日志（避免重复）
         if (data.message !== lastLoggedMessage) {
           lastLoggedMessage = data.message
           addLog(data.message)
@@ -890,18 +890,18 @@ const pollPrepareStatus = async () => {
       
       // 检查是否完成
       if (data.status === 'completed' || data.status === 'ready' || data.already_prepared) {
-        addLog('✓ 准备工作已完成')
+        addLog('✓ 准备工作Concluído')
         stopPolling()
         stopProfilesPolling()
         await loadPreparedData()
       } else if (data.status === 'failed') {
-        addLog(`✗ 准备失败: ${data.error || '未知错误'}`)
+        addLog(`✗ 准备失败: ${data.error || '未知Erro'}`)
         stopPolling()
         stopProfilesPolling()
       }
     }
   } catch (err) {
-    console.warn('轮询状态失败:', err)
+    console.warn('rodadas询Status失败:', err)
   }
 }
 
@@ -919,7 +919,7 @@ const fetchProfilesRealtime = async () => {
         expectedTotal.value = res.data.total_expected
       }
       
-      // 提取实体类型
+      // 提取实体Tipo
       const types = new Set()
       profiles.value.forEach(p => {
         if (p.entity_type) types.add(p.entity_type)
@@ -938,9 +938,9 @@ const fetchProfilesRealtime = async () => {
         }
         addLog(`→ Agent人设 ${currentCount}/${total}: ${profileName} (${latestProfile?.profession || '未知职业'})`)
         
-        // 如果全部生成完成
+        // 如果TodosGeração concluída
         if (expectedTotal.value && currentCount >= expectedTotal.value) {
-          addLog(`✓ 全部 ${currentCount} 个Agent人设生成完成`)
+          addLog(`✓ Todos ${currentCount} 个AgentGeração de perfis完成`)
         }
       }
     }
@@ -949,7 +949,7 @@ const fetchProfilesRealtime = async () => {
   }
 }
 
-// 配置轮询
+// 配置rodadas询
 const startConfigPolling = () => {
   configTimer = setInterval(fetchConfigRealtime, 2000)
 }
@@ -976,28 +976,28 @@ const fetchConfigRealtime = async () => {
         if (data.generation_stage === 'generating_profiles') {
           addLog('正在生成Agent人设配置...')
         } else if (data.generation_stage === 'generating_config') {
-          addLog('正在调用LLM生成模拟配置参数...')
+          addLog('正在调用LLM生成Configuração da Simulação参数...')
         }
       }
       
       // 如果配置已生成
       if (data.config_generated && data.config) {
         simulationConfig.value = data.config
-        addLog('✓ 模拟配置生成完成')
+        addLog('✓ Configuração da SimulaçãoGeração concluída')
         
-        // 显示详细配置摘要
+        // 显示详细配置Resumo
         if (data.summary) {
           addLog(`  ├─ Agent数量: ${data.summary.total_agents}个`)
           addLog(`  ├─ 模拟时长: ${data.summary.simulation_hours}小时`)
           addLog(`  ├─ 初始帖子: ${data.summary.initial_posts_count}条`)
           addLog(`  ├─ 热点话题: ${data.summary.hot_topics_count}个`)
-          addLog(`  └─ 平台配置: Twitter ${data.summary.has_twitter_config ? '✓' : '✗'}, Reddit ${data.summary.has_reddit_config ? '✓' : '✗'}`)
+          addLog(`  └─ Configuração da Plataforma: Twitter ${data.summary.has_twitter_config ? '✓' : '✗'}, Reddit ${data.summary.has_reddit_config ? '✓' : '✗'}`)
         }
         
-        // 显示时间配置详情
+        // 显示Hora配置Detalhes
         if (data.config.time_config) {
           const tc = data.config.time_config
-          addLog(`时间配置: 每轮${tc.minutes_per_round}分钟, 共${Math.floor((tc.total_simulation_hours * 60) / tc.minutes_per_round)}轮`)
+          addLog(`Hora配置: 每rodadas${tc.minutes_per_round}分钟, 共${Math.floor((tc.total_simulation_hours * 60) / tc.minutes_per_round)}rodadas`)
         }
         
         // 显示事件配置
@@ -1008,7 +1008,7 @@ const fetchConfigRealtime = async () => {
         
         stopConfigPolling()
         phase.value = 4
-        addLog('✓ 环境搭建完成，可以开始模拟')
+        addLog('✓ Configuração do Ambiente完成，可以Iniciar Simulação')
         emit('update-status', 'completed')
       }
     }
@@ -1019,7 +1019,7 @@ const fetchConfigRealtime = async () => {
 
 const loadPreparedData = async () => {
   phase.value = 2
-  addLog('正在加载已有配置数据...')
+  addLog('Carregando已有配置数据...')
 
   // 最后获取一次 Profiles
   await fetchProfilesRealtime()
@@ -1031,21 +1031,21 @@ const loadPreparedData = async () => {
     if (res.success && res.data) {
       if (res.data.config_generated && res.data.config) {
         simulationConfig.value = res.data.config
-        addLog('✓ 模拟配置加载成功')
+        addLog('✓ Configuração da Simulação加载Sucesso')
         
-        // 显示详细配置摘要
+        // 显示详细配置Resumo
         if (res.data.summary) {
           addLog(`  ├─ Agent数量: ${res.data.summary.total_agents}个`)
           addLog(`  ├─ 模拟时长: ${res.data.summary.simulation_hours}小时`)
           addLog(`  └─ 初始帖子: ${res.data.summary.initial_posts_count}条`)
         }
         
-        addLog('✓ 环境搭建完成，可以开始模拟')
+        addLog('✓ Configuração do Ambiente完成，可以Iniciar Simulação')
         phase.value = 4
         emit('update-status', 'completed')
       } else {
-        // 配置尚未生成，开始轮询
-        addLog('配置生成中，开始轮询等待...')
+        // 配置尚未生成，开始rodadas询
+        addLog('配置生成中，开始rodadas询等待...')
         startConfigPolling()
       }
     }
@@ -1068,7 +1068,7 @@ watch(() => props.systemLogs?.length, () => {
 onMounted(() => {
   // 自动开始准备流程
   if (props.simulationId) {
-    addLog('Step2 环境搭建初始化')
+    addLog('Step2 Configuração do Ambiente初始化')
     startPrepareSimulation()
   }
 })
@@ -2272,7 +2272,7 @@ onUnmounted(() => {
   margin: 0;
 }
 
-/* 模拟轮数配置样式 */
+/* 模拟rodadas数配置样式 */
 .rounds-config-section {
   margin: 24px 0;
   padding-top: 24px;

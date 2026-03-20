@@ -98,7 +98,7 @@
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
               </svg>
-              <span>与Report Agent对话</span>
+              <span>与Report AgentConversa</span>
             </button>
             <div class="agent-dropdown" v-if="profiles.length > 0">
               <button 
@@ -110,13 +110,13 @@
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                <span>{{ selectedAgent ? selectedAgent.username : '与世界中任意个体对话' }}</span>
+                <span>{{ selectedAgent ? selectedAgent.username : '与世界中任意个体Conversa' }}</span>
                 <svg class="dropdown-arrow" :class="{ open: showAgentDropdown }" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </button>
               <div v-if="showAgentDropdown" class="dropdown-menu">
-                <div class="dropdown-header">选择对话对象</div>
+                <div class="dropdown-header">选择Conversa对象</div>
                 <div 
                   v-for="(agent, idx) in profiles" 
                   :key="idx"
@@ -141,7 +141,7 @@
                 <path d="M9 11l3 3L22 4"></path>
                 <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
               </svg>
-              <span>发送问卷调查到世界中</span>
+              <span>Enviar问卷调查到世界中</span>
             </button>
           </div>
         </div>
@@ -155,7 +155,7 @@
               <div class="tools-card-avatar">R</div>
               <div class="tools-card-info">
                 <div class="tools-card-name">Report Agent - Chat</div>
-                <div class="tools-card-subtitle">报告生成智能体的快速对话版本，可调用 4 种专业工具，拥有MiroFish的完整记忆</div>
+                <div class="tools-card-subtitle">Geração de Relatório智能体的快速Conversa版本，可调用 4 种专业工具，拥有MiroFish的完整记忆</div>
               </div>
               <button class="tools-card-toggle" @click="showToolsDetail = !showToolsDetail">
                 <svg :class="{ 'is-expanded': showToolsDetail }" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -173,7 +173,7 @@
                   </div>
                   <div class="tool-content">
                     <div class="tool-name">InsightForge 深度归因</div>
-                    <div class="tool-desc">对齐现实世界种子数据与模拟环境状态，结合Global/Local Memory机制，提供跨时空的深度归因分析</div>
+                    <div class="tool-desc">对齐现实世界种子数据与模拟环境Status，结合Global/Local Memory机制，提供跨时空的深度归因Análise</div>
                   </div>
                 </div>
                 <div class="tool-item tool-blue">
@@ -196,7 +196,7 @@
                   </div>
                   <div class="tool-content">
                     <div class="tool-name">QuickSearch 快速检索</div>
-                    <div class="tool-desc">基于 GraphRAG 的即时查询接口，优化索引效率，用于快速提取具体的节点属性与离散事实</div>
+                    <div class="tool-desc">基于 GraphRAG 的即时查询接口，优化索引效率，用于快速提取具体的Nós属性与离散事实</div>
                   </div>
                 </div>
                 <div class="tool-item tool-green">
@@ -209,7 +209,7 @@
                   </div>
                   <div class="tool-content">
                     <div class="tool-name">InterviewSubAgent 虚拟访谈</div>
-                    <div class="tool-desc">自主式访谈，能够并行与模拟世界中个体进行多轮对话，采集非结构化的观点数据与心理状态</div>
+                    <div class="tool-desc">自主式访谈，能够并行与模拟世界中个体进行多rodadasConversa，采集非结构化的观点数据与心理Status</div>
                   </div>
                 </div>
               </div>
@@ -250,7 +250,7 @@
                 </svg>
               </div>
               <p class="empty-text">
-                {{ chatTarget === 'report_agent' ? '与 Report Agent 对话，深入了解报告内容' : '与模拟个体对话，了解他们的观点' }}
+                {{ chatTarget === 'report_agent' ? '与 Report Agent Conversa，深入了解报告内容' : '与模拟个体Conversa，了解他们的观点' }}
               </p>
             </div>
             <div 
@@ -345,7 +345,7 @@
                 </label>
               </div>
               <div class="selection-actions">
-                <button class="action-link" @click="selectAllAgents">全选</button>
+                <button class="action-link" @click="selectAllAgents">Selecionar Todos</button>
                 <span class="action-divider">|</span>
                 <button class="action-link" @click="clearAgentSelection">清空</button>
               </div>
@@ -358,7 +358,7 @@
               <textarea 
                 v-model="surveyQuestion"
                 class="survey-input"
-                placeholder="输入您想问所有被选中对象的问题..."
+                placeholder="输入您想问所有被Selecionados对象的问题..."
                 rows="3"
               ></textarea>
             </div>
@@ -369,7 +369,7 @@
               @click="submitSurvey"
             >
               <span v-if="isSurveying" class="loading-spinner"></span>
-              <span v-else>发送问卷</span>
+              <span v-else>Enviar问卷</span>
             </button>
           </div>
 
@@ -434,7 +434,7 @@ const showToolsDetail = ref(true)
 // Chat State
 const chatInput = ref('')
 const chatHistory = ref([])
-const chatHistoryCache = ref({}) // 缓存所有对话记录: { 'report_agent': [], 'agent_0': [], 'agent_1': [], ... }
+const chatHistoryCache = ref({}) // 缓存所有Conversa记录: { 'report_agent': [], 'agent_0': [], 'agent_1': [], ... }
 const isSending = ref(false)
 const chatMessages = ref(null)
 const chatInputRef = ref(null)
@@ -484,7 +484,7 @@ const selectChatTarget = (target) => {
   }
 }
 
-// 保存当前对话记录到缓存
+// Salvar当前Conversa记录到缓存
 const saveChatHistory = () => {
   if (chatHistory.value.length === 0) return
   
@@ -496,7 +496,7 @@ const saveChatHistory = () => {
 }
 
 const selectReportAgentChat = () => {
-  // 保存当前对话记录
+  // Salvar当前Conversa记录
   saveChatHistory()
   
   activeTab.value = 'chat'
@@ -505,7 +505,7 @@ const selectReportAgentChat = () => {
   selectedAgentIndex.value = null
   showAgentDropdown.value = false
   
-  // 恢复 Report Agent 的对话记录
+  // 恢复 Report Agent 的Conversa记录
   chatHistory.value = chatHistoryCache.value['report_agent'] || []
 }
 
@@ -525,7 +525,7 @@ const toggleAgentDropdown = () => {
 }
 
 const selectAgent = (agent, idx) => {
-  // 保存当前对话记录
+  // Salvar当前Conversa记录
   saveChatHistory()
   
   selectedAgent.value = agent
@@ -533,9 +533,9 @@ const selectAgent = (agent, idx) => {
   chatTarget.value = 'agent'
   showAgentDropdown.value = false
   
-  // 恢复该 Agent 的对话记录
+  // 恢复该 Agent 的Conversa记录
   chatHistory.value = chatHistoryCache.value[`agent_${idx}`] || []
-  addLog(`选择对话对象: ${agent.username}`)
+  addLog(`选择Conversa对象: ${agent.username}`)
 }
 
 const formatTime = (timestamp) => {
@@ -662,22 +662,22 @@ const sendMessage = async () => {
       await sendToAgent(message)
     }
   } catch (err) {
-    addLog(`发送失败: ${err.message}`)
+    addLog(`Enviar失败: ${err.message}`)
     chatHistory.value.push({
       role: 'assistant',
-      content: `抱歉，发生了错误: ${err.message}`,
+      content: `抱歉，发生了Erro: ${err.message}`,
       timestamp: new Date().toISOString()
     })
   } finally {
     isSending.value = false
     scrollToBottom()
-    // 自动保存对话记录到缓存
+    // 自动SalvarConversa记录到缓存
     saveChatHistory()
   }
 }
 
 const sendToReportAgent = async (message) => {
-  addLog(`向 Report Agent 发送: ${message.substring(0, 50)}...`)
+  addLog(`向 Report Agent Enviar: ${message.substring(0, 50)}...`)
   
   // Build chat history for API
   const historyForApi = chatHistory.value
@@ -711,7 +711,7 @@ const sendToAgent = async (message) => {
     throw new Error('请先选择一个模拟个体')
   }
   
-  addLog(`向 ${selectedAgent.value.username} 发送: ${message.substring(0, 50)}...`)
+  addLog(`向 ${selectedAgent.value.username} Enviar: ${message.substring(0, 50)}...`)
   
   // Build prompt with chat history
   let prompt = message
@@ -721,7 +721,7 @@ const sendToAgent = async (message) => {
       .slice(-6)
       .map(msg => `${msg.role === 'user' ? '提问者' : '你'}：${msg.content}`)
       .join('\n')
-    prompt = `以下是我们之前的对话：\n${historyContext}\n\n现在我的新问题是：${message}`
+    prompt = `以下是我们之前的Conversa：\n${historyContext}\n\n现在我的新问题是：${message}`
   }
   
   const res = await interviewAgents({
@@ -803,7 +803,7 @@ const submitSurvey = async () => {
   if (selectedAgents.value.size === 0 || !surveyQuestion.value.trim()) return
   
   isSurveying.value = true
-  addLog(`发送问卷给 ${selectedAgents.value.size} 个对象...`)
+  addLog(`Enviar问卷给 ${selectedAgents.value.size} 个对象...`)
   
   try {
     const interviews = Array.from(selectedAgents.value).map(idx => ({
@@ -862,7 +862,7 @@ const submitSurvey = async () => {
       throw new Error(res.error || '请求失败')
     }
   } catch (err) {
-    addLog(`问卷发送失败: ${err.message}`)
+    addLog(`问卷Enviar失败: ${err.message}`)
   } finally {
     isSurveying.value = false
   }
@@ -935,7 +935,7 @@ const handleClickOutside = (e) => {
 
 // Lifecycle
 onMounted(() => {
-  addLog('Step5 深度互动初始化')
+  addLog('Step5 Interação Profunda初始化')
   loadReportData()
   loadProfiles()
   document.addEventListener('click', handleClickOutside)
