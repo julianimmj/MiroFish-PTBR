@@ -1,5 +1,5 @@
 # Estágio 1: Build do Frontend (Node.js)
-FROM node:18-alpine as frontend-builder
+FROM node:22-alpine as frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
