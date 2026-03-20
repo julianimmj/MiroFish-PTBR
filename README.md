@@ -141,6 +141,26 @@ docker compose up -d
 
 Por padrão, lê o `.env` na raiz e mapeia as portas `3000 (frontend)/5001 (backend)`
 
+### Opção 3: Deploy na Nuvem (Render / Web) - Recomendado
+
+Para colocar o MiroFish completo no ar (frontend + backend via URL pública) gratuitamente:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/generate-deploy?repo=https://github.com/julianimmj/MiroFish-PTBR)
+
+1. Crie uma conta no [Render.com](https://render.com) e conecte seu GitHub.
+2. Clique no botão acima ou crie um novo **Web Service**.
+3. Selecione seu repositório `MiroFish-PTBR`.
+4. Defina as configurações:
+   - **Environment:** `Docker` (Render vai ler o nosso `Dockerfile` automaticamente)
+   - **Region:** A mais próxima (ex: Ohio)
+   - **Branch:** `main`
+5. Na seção **Environment Variables**, adicione suas chaves:
+   - `LLM_API_KEY` = *sua-chave*
+   - `LLM_BASE_URL` = *sua-url-se-diferente*
+   - `LLM_MODEL_NAME` = *seu-modelo*
+   - `ZEP_API_KEY` = *sua-chave-zep*
+6. Clique em **Create Web Service**. O Render vai rodar o Build (pode demorar uns 5-10 minutos) e depois te dar um link público (ex: `mirofish.onrender.com`).
+
 ## 📬 Contato
 
 Este é um fork em Português do projeto [MiroFish original](https://github.com/666ghj/MiroFish).

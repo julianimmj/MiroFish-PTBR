@@ -3,7 +3,7 @@
 使用LLM根据模拟需求、文档内容、图谱信息自动生成细致的模拟参数
 实现全程自动化，无需人工设置参数
 
-采用分步生成策略，避免一次性生成过长内容导致失败：
+采用分步生成策略，避免一次性生成过长内容导致Falha：
 1. 生成时间配置
 2. 生成事件配置
 3. 分批生成Agent配置
@@ -296,13 +296,13 @@ class SimulationConfigGenerator:
         num_entities = len(entities)
         time_config_result = self._generate_time_config(context, num_entities)
         time_config = self._parse_time_config(time_config_result, num_entities)
-        reasoning_parts.append(f"时间配置: {time_config_result.get('reasoning', '成功')}")
+        reasoning_parts.append(f"时间配置: {time_config_result.get('reasoning', 'Sucesso')}")
         
         # ========== 步骤2: 生成事件配置 ==========
         report_progress(2, "生成事件配置和热点话题...")
         event_config_result = self._generate_event_config(context, simulation_requirement, entities)
         event_config = self._parse_event_config(event_config_result)
-        reasoning_parts.append(f"事件配置: {event_config_result.get('reasoning', '成功')}")
+        reasoning_parts.append(f"事件配置: {event_config_result.get('reasoning', 'Sucesso')}")
         
         # ========== 步骤3-N: 分批生成Agent配置 ==========
         all_agent_configs = []
@@ -324,7 +324,7 @@ class SimulationConfigGenerator:
             )
             all_agent_configs.extend(batch_configs)
         
-        reasoning_parts.append(f"Agent配置: 成功生成 {len(all_agent_configs)} 个")
+        reasoning_parts.append(f"Agent配置: Sucesso生成 {len(all_agent_configs)} 个")
         
         # ========== 为初始帖子分配发布者 Agent ==========
         logger.info("为初始帖子分配合适的发布者 Agent...")
@@ -373,7 +373,7 @@ class SimulationConfigGenerator:
             generation_reasoning=" | ".join(reasoning_parts)
         )
         
-        logger.info(f"模拟配置生成完成: {len(params.agent_configs)} 个Agent配置")
+        logger.info(f"模拟Configuração gerada com sucesso: {len(params.agent_configs)} 个Agent配置")
         
         return params
     
@@ -462,7 +462,7 @@ class SimulationConfigGenerator:
                 try:
                     return json.loads(content)
                 except json.JSONDecodeError as e:
-                    logger.warning(f"JSON解析失败 (attempt {attempt+1}): {str(e)[:80]}")
+                    logger.warning(f"JSON解析Falha (attempt {attempt+1}): {str(e)[:80]}")
                     
                     # 尝试修复JSON
                     fixed = self._try_fix_config_json(content)
@@ -472,12 +472,12 @@ class SimulationConfigGenerator:
                     last_error = e
                     
             except Exception as e:
-                logger.warning(f"LLM调用失败 (attempt {attempt+1}): {str(e)[:80]}")
+                logger.warning(f"LLM调用Falha (attempt {attempt+1}): {str(e)[:80]}")
                 last_error = e
                 import time
                 time.sleep(2 * (attempt + 1))
         
-        raise last_error or Exception("LLM调用失败")
+        raise last_error or Exception("LLM调用Falha")
     
     def _fix_truncated_json(self, content: str) -> str:
         """修复被截断的JSON"""
@@ -589,7 +589,7 @@ class SimulationConfigGenerator:
         try:
             return self._call_llm_with_retry(prompt, system_prompt)
         except Exception as e:
-            logger.warning(f"时间配置LLM生成失败: {e}, 使用默认配置")
+            logger.warning(f"时间配置LLM生成Falha: {e}, 使用默认配置")
             return self._get_default_time_config(num_entities)
     
     def _get_default_time_config(self, num_entities: int) -> Dict[str, Any]:
@@ -705,7 +705,7 @@ class SimulationConfigGenerator:
         try:
             return self._call_llm_with_retry(prompt, system_prompt)
         except Exception as e:
-            logger.warning(f"事件配置LLM生成失败: {e}, 使用默认配置")
+            logger.warning(f"事件配置LLM生成Falha: {e}, 使用默认配置")
             return {
                 "hot_topics": [],
                 "narrative_direction": "",
@@ -869,7 +869,7 @@ class SimulationConfigGenerator:
             result = self._call_llm_with_retry(prompt, system_prompt)
             llm_configs = {cfg["agent_id"]: cfg for cfg in result.get("agent_configs", [])}
         except Exception as e:
-            logger.warning(f"Agent配置批次LLM生成失败: {e}, 使用规则生成")
+            logger.warning(f"Agent配置批次LLM生成Falha: {e}, 使用规则生成")
             llm_configs = {}
         
         # 构建AgentActivityConfig对象

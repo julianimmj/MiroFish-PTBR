@@ -129,12 +129,12 @@ class ReportLogger:
         )
     
     def log_planning_complete(self, outline_dict: Dict[str, Any]):
-        """记录大纲规划完成"""
+        """记录大纲规划Concluído"""
         self.log(
             action="planning_complete",
             stage="planning",
             details={
-                "message": "大纲规划完成",
+                "message": "大纲规划Concluído",
                 "outline": outline_dict
             }
         )
@@ -240,7 +240,7 @@ class ReportLogger:
         content: str,
         tool_calls_count: int
     ):
-        """记录章节内容生成完成（仅记录内容，不代表整个章节完成）"""
+        """记录章节内容生成Concluído（仅记录内容，不代表整个章节Concluído）"""
         self.log(
             action="section_content",
             stage="generating",
@@ -250,7 +250,7 @@ class ReportLogger:
                 "content": content,  # 完整内容，不截断
                 "content_length": len(content),
                 "tool_calls_count": tool_calls_count,
-                "message": f"章节 {section_title} 内容生成完成"
+                "message": f"章节 {section_title} 内容生成Concluído"
             }
         )
     
@@ -261,9 +261,9 @@ class ReportLogger:
         full_content: str
     ):
         """
-        记录章节生成完成
+        记录章节生成Concluído
 
-        前端应监听此日志来判断一个章节是否真正完成，并获取完整内容
+        前端应监听此日志来判断一个章节是否真正Concluído，并获取完整内容
         """
         self.log(
             action="section_complete",
@@ -273,19 +273,19 @@ class ReportLogger:
             details={
                 "content": full_content,
                 "content_length": len(full_content),
-                "message": f"章节 {section_title} 生成完成"
+                "message": f"章节 {section_title} 生成Concluído"
             }
         )
     
     def log_report_complete(self, total_sections: int, total_time_seconds: float):
-        """记录报告生成完成"""
+        """记录报告生成Concluído"""
         self.log(
             action="report_complete",
             stage="completed",
             details={
                 "total_sections": total_sections,
                 "total_time_seconds": round(total_time_seconds, 2),
-                "message": "报告生成完成"
+                "message": "报告生成Concluído"
             }
         )
     
@@ -762,11 +762,11 @@ SECTION_SYSTEM_PROMPT_TEMPLATE = """\
    校方的回应被认为缺乏实质内容。> "校方的应对模式..." 这一评价反映了...
    ```
 5. 保持与其他章节的逻辑连贯性
-6. 【避免重复】仔细阅读下方已完成的章节内容，不要重复描述相同的信息
+6. 【避免重复】仔细阅读下方已Concluído的章节内容，不要重复描述相同的信息
 7. 【再次强调】不要添加任何标题！用**粗体**代替小节标题"""
 
 SECTION_USER_PROMPT_TEMPLATE = """\
-已完成的章节内容（请仔细阅读，避免重复）：
+已Concluído的章节内容（请仔细阅读，避免重复）：
 {previous_content}
 
 ═══════════════════════════════════════════════════════════════
@@ -774,7 +774,7 @@ SECTION_USER_PROMPT_TEMPLATE = """\
 ═══════════════════════════════════════════════════════════════
 
 【重要提醒】
-1. 仔细阅读上方已完成的章节，避免重复相同的内容！
+1. 仔细阅读上方已Concluído的章节，避免重复相同的内容！
 2. 开始前必须先调用工具获取模拟数据
 3. 请混合使用不同工具，不要只用一种
 4. 报告内容必须来自检索结果，不要使用自己的知识
@@ -913,7 +913,7 @@ class ReportAgent:
         # 控制台日志记录器（在 generate_report 中初始化）
         self.console_logger: Optional[ReportConsoleLogger] = None
         
-        logger.info(f"ReportAgent 初始化完成: graph_id={graph_id}, simulation_id={simulation_id}")
+        logger.info(f"ReportAgent 初始化Concluído: graph_id={graph_id}, simulation_id={simulation_id}")
     
     def _define_tools(self) -> Dict[str, Dict[str, Any]]:
         """定义可用工具"""
@@ -1054,11 +1054,11 @@ class ReportAgent:
                 return json.dumps(result, ensure_ascii=False, indent=2)
             
             else:
-                return f"未知工具: {tool_name}。请使用以下工具之一: insight_forge, panorama_search, quick_search"
+                return f"Desconhecido工具: {tool_name}。请使用以下工具之一: insight_forge, panorama_search, quick_search"
                 
         except Exception as e:
-            logger.error(f"工具执行失败: {tool_name}, 错误: {str(e)}")
-            return f"工具执行失败: {str(e)}"
+            logger.error(f"工具执行Falha: {tool_name}, 错误: {str(e)}")
+            return f"工具执行Falha: {str(e)}"
     
     # 合法的工具名称集合，用于裸 JSON 兜底解析时校验
     VALID_TOOL_NAMES = {"insight_forge", "panorama_search", "quick_search", "interview_agents"}
@@ -1151,7 +1151,7 @@ class ReportAgent:
         logger.info("开始规划报告大纲...")
         
         if progress_callback:
-            progress_callback("planning", 0, "正在分析模拟需求...")
+            progress_callback("planning", 0, "正在Analisando requisitos de simulação...")
         
         # 首先获取模拟上下文
         context = self.zep_tools.get_simulation_context(
@@ -1199,13 +1199,13 @@ class ReportAgent:
             )
             
             if progress_callback:
-                progress_callback("planning", 100, "大纲规划完成")
+                progress_callback("planning", 100, "大纲规划Concluído")
             
-            logger.info(f"大纲规划完成: {len(sections)} 个章节")
+            logger.info(f"大纲规划Concluído: {len(sections)} 个章节")
             return outline
             
         except Exception as e:
-            logger.error(f"大纲规划失败: {str(e)}")
+            logger.error(f"大纲规划Falha: {str(e)}")
             # 返回默认大纲（3个章节，作为fallback）
             return ReportOutline(
                 title="未来预测报告",
@@ -1259,7 +1259,7 @@ class ReportAgent:
             tools_description=self._get_tools_description(),
         )
 
-        # 构建用户prompt - 每个已完成章节各传入最大4000字
+        # 构建用户prompt - 每个已Concluído章节各传入最大4000字
         if previous_sections:
             previous_parts = []
             for sec in previous_sections:
@@ -1390,7 +1390,7 @@ class ReportAgent:
 
                 # 正常结束
                 final_answer = response.split("Final Answer:")[-1].strip()
-                logger.info(f"章节 {section.title} 生成完成（工具调用: {tool_calls_count}次）")
+                logger.info(f"章节 {section.title} 生成Concluído（工具调用: {tool_calls_count}次）")
 
                 if self.report_logger:
                     self.report_logger.log_section_content(
@@ -1512,13 +1512,13 @@ class ReportAgent:
         # 检查强制收尾时 LLM 返回是否为 None
         if response is None:
             logger.error(f"章节 {section.title} 强制收尾时 LLM 返回 None，使用默认错误提示")
-            final_answer = f"（本章节生成失败：LLM 返回空响应，请稍后重试）"
+            final_answer = f"（本章节生成Falha：LLM 返回空响应，请稍后重试）"
         elif "Final Answer:" in response:
             final_answer = response.split("Final Answer:")[-1].strip()
         else:
             final_answer = response
         
-        # 记录章节内容生成完成日志
+        # 记录章节内容生成Concluído日志
         if self.report_logger:
             self.report_logger.log_section_content(
                 section_title=section.title,
@@ -1537,7 +1537,7 @@ class ReportAgent:
         """
         生成完整报告（分章节实时输出）
         
-        每个章节生成完成后立即保存到文件夹，不需要等待整个报告完成。
+        每个章节生成Concluído后立即保存到文件夹，不需要等待整个报告Concluído。
         文件结构：
         reports/{report_id}/
             meta.json       - 报告元信息
@@ -1571,7 +1571,7 @@ class ReportAgent:
             created_at=datetime.now().isoformat()
         )
         
-        # 已完成的章节标题列表（用于进度追踪）
+        # 已Concluído的章节标题列表（用于进度追踪）
         completed_section_titles = []
         
         try:
@@ -1614,13 +1614,13 @@ class ReportAgent:
             )
             report.outline = outline
             
-            # 记录规划完成日志
+            # 记录规划Concluído日志
             self.report_logger.log_planning_complete(outline.to_dict())
             
             # 保存大纲到文件
             ReportManager.save_outline(report_id, outline)
             ReportManager.update_progress(
-                report_id, "planning", 15, f"大纲规划完成，共{len(outline.sections)}个章节",
+                report_id, "planning", 15, f"大纲规划Concluído，共{len(outline.sections)}个章节",
                 completed_sections=[]
             )
             ReportManager.save_report(report)
@@ -1673,7 +1673,7 @@ class ReportAgent:
                 ReportManager.save_section(report_id, section_num, section)
                 completed_section_titles.append(section.title)
 
-                # 记录章节完成日志
+                # 记录章节Concluído日志
                 full_section_content = f"## {section.title}\n\n{section_content}"
 
                 if self.report_logger:
@@ -1689,7 +1689,7 @@ class ReportAgent:
                 ReportManager.update_progress(
                     report_id, "generating", 
                     base_progress + int(70 / total_sections),
-                    f"章节 {section.title} 已完成",
+                    f"章节 {section.title} 已Concluído",
                     current_section=None,
                     completed_sections=completed_section_titles
                 )
@@ -1711,7 +1711,7 @@ class ReportAgent:
             # 计算总耗时
             total_time_seconds = (datetime.now() - start_time).total_seconds()
             
-            # 记录报告完成日志
+            # 记录报告Concluído日志
             if self.report_logger:
                 self.report_logger.log_report_complete(
                     total_sections=total_sections,
@@ -1721,14 +1721,14 @@ class ReportAgent:
             # 保存最终报告
             ReportManager.save_report(report)
             ReportManager.update_progress(
-                report_id, "completed", 100, "报告生成完成",
+                report_id, "completed", 100, "报告生成Concluído",
                 completed_sections=completed_section_titles
             )
             
             if progress_callback:
-                progress_callback("completed", 100, "报告生成完成")
+                progress_callback("completed", 100, "报告生成Concluído")
             
-            logger.info(f"报告生成完成: {report_id}")
+            logger.info(f"报告生成Concluído: {report_id}")
             
             # 关闭控制台日志记录器
             if self.console_logger:
@@ -1738,7 +1738,7 @@ class ReportAgent:
             return report
             
         except Exception as e:
-            logger.error(f"报告生成失败: {str(e)}")
+            logger.error(f"报告生成Falha: {str(e)}")
             report.status = ReportStatus.FAILED
             report.error = str(e)
             
@@ -1746,15 +1746,15 @@ class ReportAgent:
             if self.report_logger:
                 self.report_logger.log_error(str(e), "failed")
             
-            # 保存失败状态
+            # 保存Falha状态
             try:
                 ReportManager.save_report(report)
                 ReportManager.update_progress(
-                    report_id, "failed", -1, f"报告生成失败: {str(e)}",
+                    report_id, "failed", -1, f"报告生成Falha: {str(e)}",
                     completed_sections=completed_section_titles
                 )
             except Exception:
-                pass  # 忽略保存失败的错误
+                pass  # 忽略保存Falha的错误
             
             # 关闭控制台日志记录器
             if self.console_logger:
@@ -1798,7 +1798,7 @@ class ReportAgent:
                 if len(report.markdown_content) > 15000:
                     report_content += "\n\n... [报告内容已截断] ..."
         except Exception as e:
-            logger.warning(f"获取报告内容失败: {e}")
+            logger.warning(f"获取报告内容Falha: {e}")
         
         system_prompt = CHAT_SYSTEM_PROMPT_TEMPLATE.format(
             simulation_requirement=self.simulation_requirement,
@@ -2052,7 +2052,7 @@ class ReportManager:
                         log_entry = json.loads(line.strip())
                         logs.append(log_entry)
                     except json.JSONDecodeError:
-                        # 跳过解析失败的行
+                        # 跳过解析Falha的行
                         continue
         
         return {
@@ -2081,7 +2081,7 @@ class ReportManager:
         """
         保存报告大纲
         
-        在规划阶段完成后立即调用
+        在规划阶段Concluído后立即调用
         """
         cls._ensure_report_folder(report_id)
         
@@ -2100,7 +2100,7 @@ class ReportManager:
         """
         保存单个章节
 
-        在每个章节生成完成后立即调用，实现分章节输出
+        在每个章节生成Concluído后立即调用，实现分章节输出
 
         Args:
             report_id: 报告ID

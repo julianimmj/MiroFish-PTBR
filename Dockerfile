@@ -1,29 +1,36 @@
-FROM python:3.11
+# Estágio 1: Build do Frontend (Node.js)
+FROM node:18-alpine as frontend-builder
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend ./
+RUN npm run build
 
-# 安装 Node.js （满足 >=18）及必要工具
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends nodejs npm \
-  && rm -rf /var/lib/apt/lists/*
-
-# 从 uv 官方镜像复制 uv
-COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
-
+# Estágio 2: Setup do Backend e Servidor (Python)
+FROM python:3.11-slim
 WORKDIR /app
 
-# 先复制依赖描述文件以利用缓存
-COPY package.json package-lock.json ./
-COPY frontend/package.json frontend/package-lock.json ./frontend/
+# Instalar 'uv' para dependências rápidas
+COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
+
+# Copiar arquivos de descrição e o backend
 COPY backend/pyproject.toml backend/uv.lock ./backend/
+RUN cd backend && uv sync --frozen
 
-# 安装依赖（Node + Python）
-RUN npm ci \
-  && npm ci --prefix frontend \
-  && cd backend && uv sync --frozen
+# Copiar o restante do código backend
+COPY backend ./backend
+COPY .env.example .env
 
-# 复制项目源码
-COPY . .
+# O frontend compilado precisa ficar um nível acima do backend,
+# conforme static_folder definido no __init__.py (../../frontend/dist)
+# A estrutura final será /app/frontend/dist e /app/backend
+COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-EXPOSE 3000 5001
+# Expor apenas a porta 5001 (Render usa a porta definida pelo processo ou PORT env var)
+# Ajustar para pegar a porta automática via variável de ambiente, padrão 5001
+ENV FLASK_HOST=0.0.0.0
+ENV FLASK_PORT=5001
+EXPOSE ${FLASK_PORT}
 
-# 同时启动前后端（开发模式）
-CMD ["npm", "run", "dev"]
+# Comando para rodar apenas o backend, que agora também serve o frontend
+CMD ["python", "backend/run.py"]

@@ -42,7 +42,7 @@ def generate_report():
                 "simulation_id": "sim_xxxx",
                 "task_id": "task_xxxx",
                 "status": "generating",
-                "message": "报告生成任务已启动"
+                "message": "Tarefa de geração de relatório iniciada"
             }
         }
     """
@@ -88,7 +88,7 @@ def generate_report():
         if not project:
             return jsonify({
                 "success": False,
-                "error": f"项目不存在: {state.project_id}"
+                "error": f"Projeto não encontrado: {state.project_id}"
             }), 404
         
         graph_id = state.graph_id or project.graph_id
@@ -164,10 +164,10 @@ def generate_report():
                         }
                     )
                 else:
-                    task_manager.fail_task(task_id, report.error or "报告生成失败")
+                    task_manager.fail_task(task_id, report.error or "报告生成Falha")
                 
             except Exception as e:
-                logger.error(f"报告生成失败: {str(e)}")
+                logger.error(f"报告生成Falha: {str(e)}")
                 task_manager.fail_task(task_id, str(e))
         
         # 启动后台线程
@@ -181,13 +181,13 @@ def generate_report():
                 "report_id": report_id,
                 "task_id": task_id,
                 "status": "generating",
-                "message": "报告生成任务已启动，请通过 /api/report/generate/status 查询进度",
+                "message": "Tarefa de geração de relatório iniciada，请通过 /api/report/generate/status 查询进度",
                 "already_generated": False
             }
         })
         
     except Exception as e:
-        logger.error(f"启动报告生成任务失败: {str(e)}")
+        logger.error(f"启动报告生成任务Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -223,7 +223,7 @@ def get_generate_status():
         task_id = data.get('task_id')
         simulation_id = data.get('simulation_id')
         
-        # 如果提供了simulation_id，先检查是否已有完成的报告
+        # 如果提供了simulation_id，先检查是否已有Concluído的报告
         if simulation_id:
             existing_report = ReportManager.get_report_by_simulation(simulation_id)
             if existing_report and existing_report.status == ReportStatus.COMPLETED:
@@ -251,7 +251,7 @@ def get_generate_status():
         if not task:
             return jsonify({
                 "success": False,
-                "error": f"任务不存在: {task_id}"
+                "error": f"Tarefa não encontrada: {task_id}"
             }), 404
         
         return jsonify({
@@ -260,7 +260,7 @@ def get_generate_status():
         })
         
     except Exception as e:
-        logger.error(f"查询任务状态失败: {str(e)}")
+        logger.error(f"查询任务状态Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e)
@@ -303,7 +303,7 @@ def get_report(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取报告失败: {str(e)}")
+        logger.error(f"获取报告Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -342,7 +342,7 @@ def get_report_by_simulation(simulation_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取报告失败: {str(e)}")
+        logger.error(f"获取报告Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -382,7 +382,7 @@ def list_reports():
         })
         
     except Exception as e:
-        logger.error(f"列出报告失败: {str(e)}")
+        logger.error(f"列出报告Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -428,7 +428,7 @@ def download_report(report_id: str):
         )
         
     except Exception as e:
-        logger.error(f"下载报告失败: {str(e)}")
+        logger.error(f"下载报告Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -454,7 +454,7 @@ def delete_report(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"删除报告失败: {str(e)}")
+        logger.error(f"删除报告Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -524,7 +524,7 @@ def chat_with_report_agent():
         if not project:
             return jsonify({
                 "success": False,
-                "error": f"项目不存在: {state.project_id}"
+                "error": f"Projeto não encontrado: {state.project_id}"
             }), 404
         
         graph_id = state.graph_id or project.graph_id
@@ -551,7 +551,7 @@ def chat_with_report_agent():
         })
         
     except Exception as e:
-        logger.error(f"对话失败: {str(e)}")
+        logger.error(f"对话Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -594,7 +594,7 @@ def get_report_progress(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取报告进度失败: {str(e)}")
+        logger.error(f"获取报告进度Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -607,7 +607,7 @@ def get_report_sections(report_id: str):
     """
     获取已生成的章节列表（分章节输出）
     
-    前端可以轮询此接口获取已生成的章节内容，无需等待整个报告完成
+    前端可以轮询此接口获取已生成的章节内容，无需等待整个报告Concluído
     
     返回：
         {
@@ -645,7 +645,7 @@ def get_report_sections(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取章节列表失败: {str(e)}")
+        logger.error(f"获取章节列表Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -689,7 +689,7 @@ def get_single_section(report_id: str, section_index: int):
         })
         
     except Exception as e:
-        logger.error(f"获取章节内容失败: {str(e)}")
+        logger.error(f"获取章节内容Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -725,7 +725,7 @@ def check_report_status(simulation_id: str):
         report_status = report.status.value if report else None
         report_id = report.report_id if report else None
         
-        # 只有报告完成后才解锁interview
+        # 只有报告Concluído后才解锁interview
         interview_unlocked = has_report and report.status == ReportStatus.COMPLETED
         
         return jsonify({
@@ -740,7 +740,7 @@ def check_report_status(simulation_id: str):
         })
         
     except Exception as e:
-        logger.error(f"检查报告状态失败: {str(e)}")
+        logger.error(f"检查报告状态Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -756,9 +756,9 @@ def get_agent_log(report_id: str):
     获取 Report Agent 的详细执行日志
     
     实时获取报告生成过程中的每一步动作，包括：
-    - 报告开始、规划开始/完成
-    - 每个章节的开始、工具调用、LLM响应、完成
-    - 报告完成或失败
+    - 报告开始、规划开始/Concluído
+    - 每个章节的开始、工具调用、LLM响应、Concluído
+    - 报告Concluído或Falha
     
     Query参数：
         from_line: 从第几行开始读取（可选，默认0，用于增量获取）
@@ -801,7 +801,7 @@ def get_agent_log(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取Agent日志失败: {str(e)}")
+        logger.error(f"获取Agent日志Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -835,7 +835,7 @@ def stream_agent_log(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取Agent日志失败: {str(e)}")
+        logger.error(f"获取Agent日志Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -862,7 +862,7 @@ def get_console_log(report_id: str):
             "success": true,
             "data": {
                 "logs": [
-                    "[19:46:14] INFO: 搜索完成: 找到 15 条相关事实",
+                    "[19:46:14] INFO: 搜索Concluído: 找到 15 条相关事实",
                     "[19:46:14] INFO: 图谱搜索: graph_id=xxx, query=...",
                     ...
                 ],
@@ -883,7 +883,7 @@ def get_console_log(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取控制台日志失败: {str(e)}")
+        logger.error(f"获取控制台日志Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -917,7 +917,7 @@ def stream_console_log(report_id: str):
         })
         
     except Exception as e:
-        logger.error(f"获取控制台日志失败: {str(e)}")
+        logger.error(f"获取控制台日志Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -967,7 +967,7 @@ def search_graph_tool():
         })
         
     except Exception as e:
-        logger.error(f"图谱搜索失败: {str(e)}")
+        logger.error(f"图谱搜索Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),
@@ -1007,7 +1007,7 @@ def get_graph_statistics_tool():
         })
         
     except Exception as e:
-        logger.error(f"获取图谱统计失败: {str(e)}")
+        logger.error(f"获取图谱统计Falha: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e),

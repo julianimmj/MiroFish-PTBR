@@ -29,7 +29,7 @@ class SimulationStatus(str, Enum):
     RUNNING = "running"
     PAUSED = "paused"
     STOPPED = "stopped"      # 模拟被手动停止
-    COMPLETED = "completed"  # 模拟自然完成
+    COMPLETED = "completed"  # 模拟自然Concluído
     FAILED = "failed"
 
 
@@ -289,7 +289,7 @@ class SimulationManager:
             if progress_callback:
                 progress_callback(
                     "reading", 100, 
-                    f"完成，共 {filtered.filtered_count} 个实体",
+                    f"Concluído，共 {filtered.filtered_count} 个实体",
                     current=filtered.filtered_count,
                     total=filtered.filtered_count
                 )
@@ -375,7 +375,7 @@ class SimulationManager:
             if progress_callback:
                 progress_callback(
                     "generating_profiles", 100, 
-                    f"完成，共 {len(profiles)} 个Profile",
+                    f"Concluído，共 {len(profiles)} 个Profile",
                     current=len(profiles),
                     total=len(profiles)
                 )
@@ -384,7 +384,7 @@ class SimulationManager:
             if progress_callback:
                 progress_callback(
                     "generating_config", 0, 
-                    "正在分析模拟需求...",
+                    "正在Analisando requisitos de simulação...",
                     current=0,
                     total=3
                 )
@@ -429,7 +429,7 @@ class SimulationManager:
             if progress_callback:
                 progress_callback(
                     "generating_config", 100, 
-                    "配置生成完成",
+                    "Configuração gerada com sucesso",
                     current=3,
                     total=3
                 )
@@ -441,13 +441,13 @@ class SimulationManager:
             state.status = SimulationStatus.READY
             self._save_simulation_state(state)
             
-            logger.info(f"模拟准备完成: {simulation_id}, "
+            logger.info(f"模拟准备Concluído: {simulation_id}, "
                        f"entities={state.entities_count}, profiles={state.profiles_count}")
             
             return state
             
         except Exception as e:
-            logger.error(f"模拟准备失败: {simulation_id}, error={str(e)}")
+            logger.error(f"模拟准备Falha: {simulation_id}, error={str(e)}")
             import traceback
             logger.error(traceback.format_exc())
             state.status = SimulationStatus.FAILED
