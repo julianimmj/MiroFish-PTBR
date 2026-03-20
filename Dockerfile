@@ -33,4 +33,4 @@ ENV FLASK_PORT=5001
 EXPOSE ${FLASK_PORT}
 
 # Comando para rodar apenas o backend, que agora também serve o frontend
-CMD ["python", "backend/run.py"]
+CMD ["/app/backend/.venv/bin/python", "backend/run.py"]
