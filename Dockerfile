@@ -15,7 +15,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 
 # Copiar arquivos de descrição e o backend
 COPY backend/pyproject.toml backend/uv.lock ./backend/
-RUN cd backend && uv sync --frozen
+RUN cd backend && uv sync --frozen && /uv pip install gunicorn
 
 # Copiar o restante do código backend
 COPY backend ./backend
@@ -32,5 +32,5 @@ ENV FLASK_HOST=0.0.0.0
 ENV FLASK_PORT=5001
 EXPOSE ${FLASK_PORT}
 
-# Comando para rodar apenas o backend, que agora também serve o frontend
-CMD ["/app/backend/.venv/bin/python", "backend/run.py"]
+# Comando para rodar apenas o backend com servidor WSGI de Produção (Gunicorn)
+CMD ["/app/backend/.venv/bin/gunicorn", "--chdir", "backend", "--bind", "0.0.0.0:5001", "--workers", "1", "--threads", "4", "--timeout", "300", "app:create_app()"]
