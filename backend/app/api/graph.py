@@ -199,6 +199,10 @@ def generate_ontology():
                 "success": False,
                 "error": "Nenhum documento ou texto fornecido para análise"
             }), 400
+            
+        if not document_texts and simulation_requirement:
+            all_text = f"=== Requisitos de Simulação ===\n{simulation_requirement}"
+            document_texts.append(simulation_requirement)
         
         # 保存提取的文本
         project.total_text_length = len(all_text)

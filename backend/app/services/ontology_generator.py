@@ -225,6 +225,10 @@ class OntologyGenerator:
             combined_text = combined_text[:self.MAX_TEXT_LENGTH_FOR_LLM]
             combined_text += f"\n\n...(原文共{original_length}字，已截取前{self.MAX_TEXT_LENGTH_FOR_LLM}字用于本体分析)..."
         
+        # 如果没有文档内容，明确告知LLM仅依赖模拟需求
+        if not combined_text.strip():
+            combined_text = "Nenhum documento textual foi fornecido. Por favor, baseie o design das entidades e relações exclusivamente no 'Requisito de Simulação' detalhado acima."
+
         message = f"""## 模拟需求
 
 {simulation_requirement}
