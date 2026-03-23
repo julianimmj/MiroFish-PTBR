@@ -15,7 +15,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 
 # Copiar arquivos de descrição e o backend
 COPY backend/pyproject.toml backend/uv.lock ./backend/
-RUN cd backend && uv sync --frozen && /uv pip install gunicorn
+RUN cd backend && uv sync --frozen && uv pip install gunicorn
 
 # Copiar o restante do código backend
 COPY backend ./backend
