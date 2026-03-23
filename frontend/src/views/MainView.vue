@@ -188,9 +188,9 @@ const initProject = async () => {
 
 const handleNewProject = async () => {
   const pending = getPendingUpload()
-  if (!pending.isPending || pending.files.length === 0) {
-    error.value = 'No pending files found.'
-    addLog('Error: No pending files found for new project.')
+  if (!pending.isPending || (pending.files.length === 0 && !pending.simulationRequirement)) {
+    error.value = 'Nenhum dado enviado.'
+    addLog('Error: No pending data found for new project.')
     return
   }
   
