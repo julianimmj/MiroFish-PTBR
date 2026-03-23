@@ -6,25 +6,25 @@
         <div class="card-header">
           <div class="step-info">
             <span class="step-num">01</span>
-            <span class="step-title">本体生成</span>
+            <span class="step-title">Gerar Ontologia</span>
           </div>
           <div class="step-status">
             <span v-if="currentPhase > 0" class="badge success">Concluído</span>
-            <span v-else-if="currentPhase === 0" class="badge processing">生成中</span>
-            <span v-else class="badge pending">等待</span>
+            <span v-else-if="currentPhase === 0" class="badge processing">Gerando...</span>
+            <span v-else class="badge pending">Aguardando</span>
           </div>
         </div>
         
         <div class="card-content">
           <p class="api-note">POST /api/graph/ontology/generate</p>
           <p class="description">
-            LLMAnálise文档内容与Requisito de Simulação，提取出现实种子，自动生成合适的本体结构
+            IA analisa o documento e os requisitos para extrair sementes do mundo e gerar automaticamente a estrutura da ontologia
           </p>
 
           <!-- Loading / Progress -->
           <div v-if="currentPhase === 0 && ontologyProgress" class="progress-section">
             <div class="spinner-sm"></div>
-            <span>{{ ontologyProgress.message || '正在Análise文档...' }}</span>
+            <span>{{ ontologyProgress.message || 'Analisando documentos...' }}</span>
           </div>
 
           <!-- Detail Overlay -->
@@ -115,29 +115,29 @@
           <div class="step-status">
             <span v-if="currentPhase > 1" class="badge success">Concluído</span>
             <span v-else-if="currentPhase === 1" class="badge processing">{{ buildProgress?.progress || 0 }}%</span>
-            <span v-else class="badge pending">等待</span>
+            <span v-else class="badge pending">Aguardando</span>
           </div>
         </div>
 
         <div class="card-content">
           <p class="api-note">POST /api/graph/build</p>
           <p class="description">
-            基于生成的本体，将文档自动分块后调用 Zep 构建知识Grafo，提取实体和Relações，并形成时序记忆与社区Resumo
+            Com base na ontologia, os documentos são divididos no Zep para construir o Grafo de Conhecimento, extraindo entidades e relações.
           </p>
           
           <!-- Stats Cards -->
           <div class="stats-grid">
             <div class="stat-card">
               <span class="stat-value">{{ graphStats.nodes }}</span>
-              <span class="stat-label">实体Nós</span>
+              <span class="stat-label">Nós de Entidade</span>
             </div>
             <div class="stat-card">
               <span class="stat-value">{{ graphStats.edges }}</span>
-              <span class="stat-label">Relações边</span>
+              <span class="stat-label">Arestas de Relação</span>
             </div>
             <div class="stat-card">
               <span class="stat-value">{{ graphStats.types }}</span>
-              <span class="stat-label">SCHEMATipo</span>
+              <span class="stat-label">Tipo de SCHEMA</span>
             </div>
           </div>
         </div>
@@ -148,7 +148,7 @@
         <div class="card-header">
           <div class="step-info">
             <span class="step-num">03</span>
-            <span class="step-title">构建完成</span>
+            <span class="step-title">Construção Concluída</span>
           </div>
           <div class="step-status">
             <span v-if="currentPhase >= 2" class="badge accent">Em Andamento</span>
@@ -157,14 +157,14 @@
         
         <div class="card-content">
           <p class="api-note">POST /api/simulation/create</p>
-          <p class="description">Construção do GrafoConcluído，请进入Próxima Etapa进行模拟Configuração do Ambiente</p>
+          <p class="description">Grafo concluído. Vá para a Próxima Etapa (Configuração do Ambiente)</p>
           <button 
             class="action-btn" 
             :disabled="currentPhase < 2 || creatingSimulation"
             @click="handleEnterEnvSetup"
           >
             <span v-if="creatingSimulation" class="spinner-sm"></span>
-            {{ creatingSimulation ? '创建中...' : '进入Configuração do Ambiente ➝' }}
+            {{ creatingSimulation ? 'Criando...' : 'Configurar Ambiente ➝' }}
           </button>
         </div>
       </div>
@@ -208,7 +208,7 @@ const selectedOntologyItem = ref(null)
 const logContent = ref(null)
 const creatingSimulation = ref(false)
 
-// 进入Configuração do Ambiente - 创建 simulation 并跳转
+// Configurar Ambiente - 创建 simulation 并跳转
 const handleEnterEnvSetup = async () => {
   if (!props.projectData?.project_id || !props.projectData?.graph_id) {
     console.error('缺少Projeto或Grafo信息')

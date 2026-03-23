@@ -51,7 +51,7 @@
           <div class="step-status">
             <span v-if="phase > 1" class="badge success">Concluído</span>
             <span v-else-if="phase === 1" class="badge processing">{{ prepareProgress }}%</span>
-            <span v-else class="badge pending">等待</span>
+            <span v-else class="badge pending">Aguardando</span>
           </div>
         </div>
 
@@ -122,8 +122,8 @@
           </div>
           <div class="step-status">
             <span v-if="phase > 2" class="badge success">Concluído</span>
-            <span v-else-if="phase === 2" class="badge processing">生成中</span>
-            <span v-else class="badge pending">等待</span>
+            <span v-else-if="phase === 2" class="badge processing">Gerando...</span>
+            <span v-else class="badge pending">Aguardando</span>
           </div>
         </div>
 
@@ -356,7 +356,7 @@
           <div class="step-status">
             <span v-if="phase > 3" class="badge success">Concluído</span>
             <span v-else-if="phase === 3" class="badge processing">编排中</span>
-            <span v-else class="badge pending">等待</span>
+            <span v-else class="badge pending">Aguardando</span>
           </div>
         </div>
 
@@ -427,7 +427,7 @@
           </div>
           <div class="step-status">
             <span v-if="phase >= 4" class="badge processing">Em Andamento</span>
-            <span v-else class="badge pending">等待</span>
+            <span v-else class="badge pending">Aguardando</span>
           </div>
         </div>
 
@@ -802,7 +802,7 @@ const startPrepareSimulation = async () => {
         expectedTotal.value = res.data.expected_entities_count
         addLog(`从ZepGrafo读取到 ${res.data.expected_entities_count} 个实体`)
         if (res.data.entity_types && res.data.entity_types.length > 0) {
-          addLog(`  └─ 实体Tipo: ${res.data.entity_types.join(', ')}`)
+          addLog(`  └─ Tipos de Entidade: ${res.data.entity_types.join(', ')}`)
         }
       }
       
@@ -919,14 +919,14 @@ const fetchProfilesRealtime = async () => {
         expectedTotal.value = res.data.total_expected
       }
       
-      // 提取实体Tipo
+      // 提取Tipos de Entidade
       const types = new Set()
       profiles.value.forEach(p => {
         if (p.entity_type) types.add(p.entity_type)
       })
       entityTypes.value = Array.from(types)
       
-      // 输出 Profile 生成进度日志（仅当数量变化时）
+      // 输出 Profile Progresso da Geração日志（仅当数量变化时）
       const currentCount = profiles.value.length
       if (currentCount > 0 && currentCount !== lastLoggedProfileCount) {
         lastLoggedProfileCount = currentCount
@@ -1045,7 +1045,7 @@ const loadPreparedData = async () => {
         emit('update-status', 'completed')
       } else {
         // 配置尚未生成，开始rodadas询
-        addLog('配置生成中，开始rodadas询等待...')
+        addLog('配置Gerando...，开始rodadas询Aguardando...')
         startConfigPolling()
       }
     }

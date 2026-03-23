@@ -543,7 +543,7 @@ onMounted(async () => {
   await nextTick()
   await loadHistory()
   
-  // 等待 DOM 渲染后初始化观察器
+  // Aguardando DOM 渲染后初始化观察器
   setTimeout(() => {
     initObserver()
   }, 100)

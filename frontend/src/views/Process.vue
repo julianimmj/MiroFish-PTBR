@@ -23,7 +23,7 @@
         <div class="panel-header">
           <div class="header-left">
             <span class="header-deco">◆</span>
-            <span class="header-title">实时知识Grafo</span>
+            <span class="header-title">Grafo Em Tempo Real</span>
           </div>
           <div class="header-right">
             <template v-if="graphData">
@@ -33,10 +33,10 @@
               <span class="stat-divider">|</span>
             </template>
             <div class="action-buttons">
-                <button class="action-btn" @click="refreshGraph" :disabled="graphLoading" title="AtualizarGrafo">
+                <button class="action-btn" @click="refreshGraph" :disabled="graphLoading" title="Atualizar Grafo">
                   <span class="icon-refresh" :class="{ 'spinning': graphLoading }">↻</span>
                 </button>
-                <button class="action-btn" @click="toggleFullScreen" :title="isFullScreen ? '退出Tela Cheia' : 'Tela Cheia显示'">
+                <button class="action-btn" @click="toggleFullScreen" :title="isFullScreen ? 'Sair da Tela Cheia' : 'Tela Cheia'">
                   <span class="icon-fullscreen">{{ isFullScreen ? '↙' : '↗' }}</span>
                 </button>
             </div>
@@ -50,7 +50,7 @@
             <!-- 构建中Dica -->
             <div v-if="currentPhase === 1" class="graph-building-hint">
               <span class="building-dot"></span>
-              实时更新中...
+              Atualizando em tempo real...
             </div>
             
             <!-- Nós/边Detalhes面板 -->
@@ -171,10 +171,10 @@
               <div class="loading-ring"></div>
               <div class="loading-ring"></div>
             </div>
-            <p class="loading-text">Grafo数据Carregando...</p>
+            <p class="loading-text">Carregando dados do Grafo...</p>
           </div>
           
-          <!-- 等待构建 -->
+          <!-- Aguardando构建 -->
           <div v-else-if="currentPhase < 1" class="graph-waiting">
             <div class="waiting-icon">
               <svg viewBox="0 0 100 100" class="network-icon">
@@ -189,8 +189,8 @@
                 <line x1="50" y1="72" x2="74" y2="66" stroke="#000" stroke-width="1"/>
               </svg>
             </div>
-            <p class="waiting-text">等待本体生成</p>
-            <p class="waiting-hint">Geração concluída后将自动开始构建Grafo</p>
+            <p class="waiting-text">AguardandoGerar Ontologia</p>
+            <p class="waiting-hint">A construção começará automaticamente após a geração</p>
           </div>
           
           <!-- 构建中但还没有数据 -->
@@ -200,8 +200,8 @@
               <div class="loading-ring"></div>
               <div class="loading-ring"></div>
             </div>
-            <p class="waiting-text">Construção do Grafo中</p>
-            <p class="waiting-hint">数据即将显示...</p>
+            <p class="waiting-text">Construindo Grafo...</p>
+            <p class="waiting-hint">Os dados aparecerão em breve...</p>
           </div>
           
           <!-- ErroStatus -->
@@ -229,12 +229,12 @@
         </div>
 
         <div class="process-content">
-          <!-- 阶段1: 本体生成 -->
+          <!-- 阶段1: Gerar Ontologia -->
           <div class="process-phase" :class="{ 'active': currentPhase === 0, 'completed': currentPhase > 0 }">
             <div class="phase-header">
               <span class="phase-num">01</span>
               <div class="phase-info">
-                <div class="phase-title">本体生成</div>
+                <div class="phase-title">Gerar Ontologia</div>
                 <div class="phase-api">/api/graph/ontology/generate</div>
               </div>
               <span class="phase-status" :class="getPhaseStatusClass(0)">
@@ -244,15 +244,15 @@
             
             <div class="phase-detail">
               <div class="detail-section">
-                <div class="detail-label">接口说明</div>
+                <div class="detail-label">Descrição</div>
                 <div class="detail-content">
-                  Enviar文档后，LLMAnálise文档内容，自动生成适合舆论模拟的本体结构（实体Tipo + RelaçõesTipo）
+                  Geração automática da estrutura da ontologia (Tipos de Entidade + Tipos de Relação)
                 </div>
               </div>
               
-              <!-- 本体生成进度 -->
+              <!-- Gerar Ontologia进度 -->
               <div class="detail-section" v-if="ontologyProgress && currentPhase === 0">
-                <div class="detail-label">生成进度</div>
+                <div class="detail-label">Progresso da Geração</div>
                 <div class="ontology-progress">
                   <div class="progress-spinner"></div>
                   <span class="progress-text">{{ ontologyProgress.message }}</span>
@@ -261,7 +261,7 @@
               
               <!-- 已生成的本体信息 -->
               <div class="detail-section" v-if="projectData?.ontology">
-                <div class="detail-label">生成的实体Tipo ({{ projectData.ontology.entity_types?.length || 0 }})</div>
+                <div class="detail-label">Tipos de Entidade Gerados ({{ projectData.ontology.entity_types?.length || 0 }})</div>
                 <div class="entity-tags">
                   <span 
                     v-for="entity in projectData.ontology.entity_types" 
@@ -274,7 +274,7 @@
               </div>
               
               <div class="detail-section" v-if="projectData?.ontology">
-                <div class="detail-label">生成的RelaçõesTipo ({{ projectData.ontology.relation_types?.length || 0 }})</div>
+                <div class="detail-label">Tipos de Relação Gerados ({{ projectData.ontology.relation_types?.length || 0 }})</div>
                 <div class="relation-list">
                   <div 
                     v-for="(rel, idx) in projectData.ontology.relation_types?.slice(0, 5) || []" 
@@ -288,14 +288,14 @@
                     <span class="rel-target">{{ rel.target_type }}</span>
                   </div>
                   <div v-if="(projectData.ontology.relation_types?.length || 0) > 5" class="relation-more">
-                    +{{ projectData.ontology.relation_types.length - 5 }} 更多Relações...
+                    +{{ projectData.ontology.relation_types.length - 5 }} mais relações...
                   </div>
                 </div>
               </div>
               
-              <!-- 等待Status -->
+              <!-- AguardandoStatus -->
               <div class="detail-section waiting-state" v-if="!projectData?.ontology && currentPhase === 0 && !ontologyProgress">
-                <div class="waiting-hint">等待本体生成...</div>
+                <div class="waiting-hint">AguardandoGerar Ontologia...</div>
               </div>
             </div>
           </div>
@@ -315,20 +315,20 @@
             
             <div class="phase-detail">
               <div class="detail-section">
-                <div class="detail-label">接口说明</div>
+                <div class="detail-label">Descrição</div>
                 <div class="detail-content">
-                  基于生成的本体，将文档分块后调用 Zep API 构建知识Grafo，提取实体和Relações
+                  A API do Zep é chamada para construir o Grafo (entidades e relações)
                 </div>
               </div>
               
-              <!-- 等待本体完成 -->
+              <!-- Aguardando本体完成 -->
               <div class="detail-section waiting-state" v-if="currentPhase < 1">
-                <div class="waiting-hint">等待本体Geração concluída...</div>
+                <div class="waiting-hint">Aguardando本体Geração concluída...</div>
               </div>
               
-              <!-- Progresso da construção -->
+              <!-- Progresso da Construção -->
               <div class="detail-section" v-if="buildProgress && currentPhase >= 1">
-                <div class="detail-label">Progresso da construção</div>
+                <div class="detail-label">Progresso da Construção</div>
                 <div class="progress-bar">
                   <div class="progress-fill" :style="{ width: buildProgress.progress + '%' }"></div>
                 </div>
@@ -339,19 +339,19 @@
               </div>
               
               <div class="detail-section" v-if="graphData">
-                <div class="detail-label">构建结果</div>
+                <div class="detail-label">Resultados</div>
                 <div class="build-result">
                   <div class="result-item">
                     <span class="result-value">{{ graphData.node_count }}</span>
-                    <span class="result-label">实体Nós</span>
+                    <span class="result-label">Nós de Entidade</span>
                   </div>
                   <div class="result-item">
                     <span class="result-value">{{ graphData.edge_count }}</span>
-                    <span class="result-label">Relações边</span>
+                    <span class="result-label">Arestas de Relação</span>
                   </div>
                   <div class="result-item">
                     <span class="result-value">{{ entityTypes.length }}</span>
-                    <span class="result-label">实体Tipo</span>
+                    <span class="result-label">Tipos de Entidade</span>
                   </div>
                 </div>
               </div>
@@ -363,8 +363,8 @@
             <div class="phase-header">
               <span class="phase-num">03</span>
               <div class="phase-info">
-                <div class="phase-title">构建完成</div>
-                <div class="phase-api">准备进入Próxima Etapa骤</div>
+                <div class="phase-title">Construção Concluída</div>
+                <div class="phase-api">Preparando próxima etapa</div>
               </div>
               <span class="phase-status" :class="getPhaseStatusClass(2)">
                 {{ getPhaseStatusText(2) }}
@@ -375,29 +375,29 @@
           <!-- Próxima Etapa按钮 -->
           <div class="next-step-section" v-if="currentPhase >= 2">
             <button class="next-step-btn" @click="goToNextStep" :disabled="currentPhase < 2">
-              进入Configuração do Ambiente
+              Configurar Ambiente
               <span class="btn-arrow">→</span>
             </button>
           </div>
         </div>
 
-        <!-- Projeto信息面板 -->
+        <!-- Informações do Projeto面板 -->
         <div class="project-panel">
           <div class="project-header">
             <span class="project-icon">◇</span>
-            <span class="project-title">Projeto信息</span>
+            <span class="project-title">Informações do Projeto</span>
           </div>
           <div class="project-details" v-if="projectData">
             <div class="project-item">
-              <span class="item-label">ProjetoNome</span>
+              <span class="item-label">Nome do Projeto</span>
               <span class="item-value">{{ projectData.name }}</span>
             </div>
             <div class="project-item">
-              <span class="item-label">ProjetoID</span>
+              <span class="item-label">ID do Projeto</span>
               <span class="item-value code">{{ projectData.project_id }}</span>
             </div>
             <div class="project-item" v-if="projectData.graph_id">
-              <span class="item-label">GrafoID</span>
+              <span class="item-label">ID do Grafo</span>
               <span class="item-value code">{{ projectData.graph_id }}</span>
             </div>
             <div class="project-item">
@@ -421,7 +421,7 @@ import * as d3 from 'd3'
 const route = useRoute()
 const router = useRouter()
 
-// 当前ProjetoID（可能从'new'变为实际ID）
+// 当前ID do Projeto（可能从'new'变为实际ID）
 const currentProjectId = ref(route.params.projectId)
 
 // Status
@@ -431,8 +431,8 @@ const error = ref('')
 const projectData = ref(null)
 const graphData = ref(null)
 const buildProgress = ref(null)
-const ontologyProgress = ref(null) // 本体生成进度
-const currentPhase = ref(-1) // -1: Enviar中, 0: 本体生成中, 1: Construção do Grafo, 2: 完成
+const ontologyProgress = ref(null) // Gerar Ontologia进度
+const currentPhase = ref(-1) // -1: Enviar中, 0: Gerar Ontologia中, 1: Construção do Grafo, 2: 完成
 const selectedItem = ref(null) // Selecionados的Nós或边
 const isFullScreen = ref(false)
 
@@ -451,11 +451,11 @@ const statusClass = computed(() => {
 })
 
 const statusText = computed(() => {
-  if (error.value) return '构建失败'
-  if (currentPhase.value >= 2) return '构建完成'
-  if (currentPhase.value === 1) return 'Construção do Grafo中'
-  if (currentPhase.value === 0) return '本体生成中'
-  return '初始化中'
+  if (error.value) return 'Falha na Construção'
+  if (currentPhase.value >= 2) return 'Construção Concluída'
+  if (currentPhase.value === 1) return 'Construindo Grafo...'
+  if (currentPhase.value === 0) return 'Gerar Ontologia中'
+  return 'Inicializando...'
 })
 
 const entityTypes = computed(() => {
@@ -481,7 +481,7 @@ const goHome = () => {
 }
 
 const goToNextStep = () => {
-  // TODO: 进入Configuração do Ambiente步骤
+  // TODO: Configurar Ambiente步骤
   alert('Configuração do Ambiente功能开发中...')
 }
 
@@ -569,15 +569,15 @@ const handleNewProject = async () => {
   const pending = getPendingUpload()
   
   if (!pending.isPending || pending.files.length === 0) {
-    error.value = '没有待Enviar的Arquivo，请Voltar ao Início重新Ações'
+    error.value = 'Sem arquivos, volte ao início para tentar novamente'
     loading.value = false
     return
   }
   
   try {
     loading.value = true
-    currentPhase.value = 0 // 本体生成阶段
-    ontologyProgress.value = { message: '正在EnviarArquivo并Análise文档...' }
+    currentPhase.value = 0 // Gerar Ontologia阶段
+    ontologyProgress.value = { message: 'Enviando arquivo e analisando documentos...' }
     
     // 构建 FormData
     const formDataObj = new FormData()
@@ -586,14 +586,14 @@ const handleNewProject = async () => {
     })
     formDataObj.append('simulation_requirement', pending.simulationRequirement)
     
-    // 调用本体生成 API
+    // 调用Gerar Ontologia API
     const response = await generateOntology(formDataObj)
     
     if (response.success) {
       // 清除待Enviar数据
       clearPendingUpload()
       
-      // 更新ProjetoID和数据
+      // 更新ID do Projeto和数据
       currentProjectId.value = response.data.project_id
       projectData.value = response.data
       
@@ -608,7 +608,7 @@ const handleNewProject = async () => {
       // 自动开始Construção do Grafo
       await startBuildGraph()
     } else {
-      error.value = response.error || '本体生成失败'
+      error.value = response.error || 'Gerar Ontologia失败'
     }
   } catch (err) {
     console.error('Handle new project error:', err)
@@ -721,7 +721,7 @@ const startGraphPolling = () => {
   }, 10000)
 }
 
-// 手动AtualizarGrafo
+// 手动Atualizar Grafo
 const refreshGraph = async () => {
   graphLoading.value = true
   await fetchGraphData()
@@ -739,7 +739,7 @@ const stopGraphPolling = () => {
 // 获取Grafo数据
 const fetchGraphData = async () => {
   try {
-    // 先获取Projeto信息以获取 graph_id
+    // 先获取Informações do Projeto以获取 graph_id
     const projectResponse = await getProject(currentProjectId.value)
     
     if (projectResponse.success && projectResponse.data.graph_id) {
@@ -806,7 +806,7 @@ const pollTaskStatus = async (taskId) => {
         // 更新进度显示为完成Status
         buildProgress.value = {
           progress: 100,
-          message: '构建完成，CarregandoGrafo...'
+          message: 'Construção Concluída，CarregandoGrafo...'
         }
         
         // 重新加载Projeto数据获取 graph_id
@@ -905,7 +905,7 @@ const renderGraph = () => {
       .attr('y', height / 2)
       .attr('text-anchor', 'middle')
       .attr('fill', '#999')
-      .text('等待Grafo数据...')
+      .text('AguardandoGrafo数据...')
     return
   }
   
@@ -1852,7 +1852,7 @@ onUnmounted(() => {
   font-size: 0.75rem;
 }
 
-/* 本体生成进度 */
+/* Gerar Ontologia进度 */
 .ontology-progress {
   display: flex;
   align-items: center;
@@ -1876,7 +1876,7 @@ onUnmounted(() => {
   color: #333;
 }
 
-/* 等待Status */
+/* AguardandoStatus */
 .waiting-state {
   padding: 16px;
   background: #F9F9F9;
@@ -1918,7 +1918,7 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
-/* 构建结果 */
+/* Resultados */
 .build-result {
   display: flex;
   gap: 16px;
@@ -1983,7 +1983,7 @@ onUnmounted(() => {
   font-size: 1.2rem;
 }
 
-/* Projeto信息面板 */
+/* Informações do Projeto面板 */
 .project-panel {
   border-top: 1px solid #E0E0E0;
   background: #FAFAFA;

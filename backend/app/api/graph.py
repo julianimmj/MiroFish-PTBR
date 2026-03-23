@@ -156,19 +156,13 @@ def generate_ontology():
         
         logger.debug(f"项目名称: {project_name}")
         logger.debug(f"模拟需求: {simulation_requirement[:100]}...")
-        
-        if not simulation_requirement:
-            return jsonify({
-                "success": False,
-                "error": "Forneça a descrição da necessidade da simulação (simulation_requirement)"
-            }), 400
-        
-        # 获取上传的文件
         uploaded_files = request.files.getlist('files')
-        if not uploaded_files or all(not f.filename for f in uploaded_files):
+        has_files = uploaded_files and any(f.filename for f in uploaded_files)
+        
+        if not simulation_requirement and not has_files:
             return jsonify({
                 "success": False,
-                "error": "Envie pelo menos um arquivo de documento"
+                "error": "Forneça a descrição da simulação ou envie pelo menos um arquivo de documento"
             }), 400
         
         # 创建项目
@@ -199,11 +193,11 @@ def generate_ontology():
                 document_texts.append(text)
                 all_text += f"\n\n=== {file_info['original_filename']} ===\n{text}"
         
-        if not document_texts:
+        if not document_texts and not simulation_requirement:
             ProjectManager.delete_project(project.project_id)
             return jsonify({
                 "success": False,
-                "error": "没有Sucesso处理任何文档，请检查文件格式"
+                "error": "Nenhum documento ou texto fornecido para análise"
             }), 400
         
         # 保存提取的文本
