@@ -568,8 +568,8 @@ const initProject = async () => {
 const handleNewProject = async () => {
   const pending = getPendingUpload()
   
-  if (!pending.isPending || pending.files.length === 0) {
-    error.value = 'Sem arquivos, volte ao início para tentar novamente'
+  if (!pending.isPending || (pending.files.length === 0 && !pending.simulationRequirement)) {
+    error.value = 'Sem dados de simulação, volte ao início para tentar novamente'
     loading.value = false
     return
   }
