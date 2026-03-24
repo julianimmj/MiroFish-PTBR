@@ -28,9 +28,10 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
 # Expor apenas a porta 5001 (Render usa a porta definida pelo processo ou PORT env var)
 # Ajustar para pegar a porta automática via variável de ambiente, padrão 5001
-ENV FLASK_HOST=0.0.0.0
-ENV FLASK_PORT=5001
-EXPOSE ${FLASK_PORT}
+# Expor a porta que o Render definir (ou 5001 como fallback)
+ENV PORT=5001
+EXPOSE ${PORT}
 
 # Comando para rodar apenas o backend com servidor WSGI de Produção (Gunicorn)
-CMD ["/app/backend/.venv/bin/gunicorn", "--chdir", "backend", "--bind", "0.0.0.0:5001", "--workers", "1", "--threads", "4", "--timeout", "300", "app:create_app()"]
+# Usando sh -c para garantir a expansão da variável de ambiente PORT injetada pelo Render
+CMD ["sh", "-c", "/app/backend/.venv/bin/gunicorn --chdir backend --bind 0.0.0.0:${PORT} --workers 1 --threads 4 --timeout 300 \"app:create_app()\""]
